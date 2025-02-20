@@ -22,7 +22,6 @@ const HackerNewsListByDate: React.FC<HackerNewsListByDateProps> = ({
       setLoading(true);
       setError(null);
       try {
-        // 페이지 state를 사용하여 호출합니다.
         const data = await fetchAlgoliaStoriesByDate(formattedDate, page, 30);
         console.log(data);
         setStories(data);
