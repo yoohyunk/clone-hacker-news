@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { fetchHackerNewsStories, Story } from "../util/fetchNews";
+import Link from "next/link";
 
 interface HackerNewsListProps {
   type?: "top" | "new" | "best";
@@ -52,6 +53,7 @@ const HackerNewsList: React.FC<HackerNewsListProps> = ({
                 <p>
                   {story.score} points by {story.by}
                 </p>
+                <Link href={`/${story.id}`}>comments</Link>
               </li>
             ))}
           </ul>

@@ -1,5 +1,6 @@
 "use client";
 import { fetchAlgoliaStoriesByDate, Story } from "@/util/fetchNewsAlgolia";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type HackerNewsListByDateProps = {
@@ -84,6 +85,7 @@ const HackerNewsListByDate: React.FC<HackerNewsListByDateProps> = ({
                 <p>
                   {story.score} points by {story.by}
                 </p>
+                <Link href={`/${story.id}`}>comments</Link>
               </li>
             ))}
           </ul>
