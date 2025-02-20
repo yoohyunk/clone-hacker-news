@@ -1,18 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { fetchHackerNewsStories, Story } from "../util/fetchNews";
+import { fetchHackerAsksStories, Ask } from "../util/fetchAsks";
 import Link from "next/link";
 
-interface HackerNewsListProps {
-  type?: "top" | "new" | "best";
+interface HackerAsksListProps {
   initialPage?: number;
 }
 
-const HackerNewsList: React.FC<HackerNewsListProps> = ({
-  type = "top",
-  initialPage = 1,
-}) => {
-  const [stories, setStories] = useState<Story[]>([]);
+const HackerAsksList: React.FC<HackerAsksListProps> = ({ initialPage = 1 }) => {
+  const [stories, setStories] = useState<Ask[]>([]);
   const [page, setPage] = useState<number>(initialPage);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +17,7 @@ const HackerNewsList: React.FC<HackerNewsListProps> = ({
     setLoading(true);
     setError(null);
     try {
-      const fetchedStories = await fetchHackerNewsStories(type, page, 30);
+      const fetchedStories = await fetchHackerAsksStories(page, 30);
       setStories(fetchedStories);
     } catch {
       setError("Failed to fetch stories");
@@ -31,7 +27,7 @@ const HackerNewsList: React.FC<HackerNewsListProps> = ({
 
   useEffect(() => {
     fetchStories();
-  }, [page, type]);
+  }, [page]);
 
   return (
     <div>
@@ -43,13 +39,8 @@ const HackerNewsList: React.FC<HackerNewsListProps> = ({
             {stories.map((story, index) => (
               <li key={story.id}>
                 <span>{(page - 1) * 30 + index + 1}. </span>
-                <a
-                  href={story.url || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {story.title}
-                </a>
+                <Link href={`/${story.id}`}>{story.title}</Link>
+
                 <p>
                   {story.score} points by {story.by}
                 </p>
@@ -69,4 +60,4 @@ const HackerNewsList: React.FC<HackerNewsListProps> = ({
   );
 };
 
-export default HackerNewsList;
+export default HackerAsksList;
